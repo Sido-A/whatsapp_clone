@@ -9,18 +9,28 @@ import MicIcon from "@material-ui/icons/Mic";
 import EmotionsIcon from "@material-ui/icons/Mood";
 import SendIcon from "@material-ui/icons/Send";
 import db from "../firebase";
+import { useStateValue } from "../StateProvider";
+import firebase from "firebase";
 
 function Chat() {
   const [input, setInput] = useState("");
   const [seed, setSeed] = useState("");
   const { roomId } = useParams();
   const [roomName, setRoomName] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (roomId) {
       db.collection("rooms")
         .doc(roomId)
         .onSnapshot((snap) => setRoomName(snap.data().name));
+
+      db.collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .orderBy("timestamp", "asc")
+        .onSnapshot((snap) => setMessages(snap.docs.map((doc) => doc.data())));
     }
   }, [roomId]);
 
@@ -30,7 +40,11 @@ function Chat() {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    console.log(input);
+    db.collection("rooms").doc(roomId).collection("messages").add({
+      name: user.displayName,
+      message: input,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
     setInput("");
   };
 
@@ -56,11 +70,15 @@ function Chat() {
         </div>
       </div>
       <div className="chat__body">
-        <p className={`chat__message ${true && "chat__reciever"}`}>
-          <span className="chat__name">Sido</span>
-          Hey guys
-          <span className="chat__timestamp">3:52pm</span>
-        </p>
+        {messages.map((message) => (
+          <p className={`chat__message ${true && "chat__reciever"}`}>
+            <span className="chat__name">{message.name}</span>
+            {message.message}
+            <span className="chat__timestamp">
+              {new Date(message.timestamp?.toDate()).toUTCString()}
+            </span>
+          </p>
+        ))}
       </div>
 
       <div className="chat__footer">
