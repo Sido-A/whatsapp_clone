@@ -33,7 +33,6 @@
 
 .chat__body {
   flex: 1;
-  background-color: greenyellow;
   background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
   background-repeat: repeat;
   background-position: center;
@@ -66,4 +65,48 @@
 .chat__timestamp {
   margin-left: 10px;
   font-size: xx-small;
+}
+
+.chat__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 62px;
+  border-top: 1px solid lightgray;
+}
+.chat__footer > .MuiSvgIcon-root {
+  padding: 10px;
+  color: gray;
+}
+.chat__footer > form {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.chat__footer > form > input {
+  flex: 1;
+  border-radius: 30px;
+  padding: 10px;
+  border: none;
+}
+
+.chat__footer > form > input:focus {
+  border-radius: 30px;
+  outline: none;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.chat__footer > form > button {
+  margin: 0 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.chat__footer > form > button > .MuiSvgIcon-root {
+  color: blue;
+  transition: color 150ms ease-in-out;
+}
+.chat__footer > form > button > .MuiSvgIcon-root:hover {
+  color: gray;
 }
