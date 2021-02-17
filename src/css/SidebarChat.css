@@ -6,6 +6,11 @@
   transition: background-color 150ms ease-in-out;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 .sidebarChat:hover {
   background-color: #ebebeb;
 }
@@ -17,7 +22,4 @@
 .sidebarChat__info > h2 {
   font-size: 16px;
   margin-bottom: 8px;
-}
-
-.sidebarChat__info > p {
 }
